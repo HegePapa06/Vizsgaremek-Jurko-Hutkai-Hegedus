@@ -1,0 +1,115 @@
+/*
+//Alap routing
+// 2. Rólam oldal
+
+app.get("/about", (req, res) => {
+    res.send("Ez az About oldal - rólam szól!");
+});
+
+//3. Felhasználók lista
+app.get("/users", (req, res) => {
+    res.json(users);
+});
+//
+*/
+/*
+//POST / users - új felhasználó hozzáadása
+app.post("/users", (req, res) => {
+    const { name } = req.body;
+    if (!name) {
+        return res.status(400).json({ error: "A név megadása kötelező!"});
+    }
+    const newUser = { id: users.length + 1, name };
+    users.push(newUser);
+    res.status(201).json(newUser);
+});
+
+
+// GET /user/:id - egy felhasználó lekérdezése
+app.get("/users/:id", (req, res) => {
+    const id = parseInt(req.params.id);
+    const user = users.find(u => u.id === id);
+
+    if(!user) {
+        return res.status(404).json({ error: "Felhasználó nem található!"});
+    }
+
+    res.json(user);
+});
+
+// PUT /users/:id - felhasználó módosítása
+app.put("/users/:id", (req, res) => {
+    const id = parseInt(req.params.id);
+    const { name } = req.body;
+
+    const user = users.find(u => u.id === id);
+    if (!user) {
+        return res.status(404).json({ error: "Felhasználható nem található!"});
+    }
+
+    if (!name) {
+        return res.status(400).json({ error: "A név megadása kötelező!"});
+    }
+
+    user.name = name;
+    res.json(user);
+});
+
+// DELETE /users/:id - felhasználó törlése
+app.delete("/users/:id", (req, res) => {
+    const id = parseInt(req.params.id);
+    const index = users.findIndex(u => u.id === id);
+
+    if (index === -1) {
+        return res.status(404).json({ error: "A felhasználható nem található!"});
+    }
+
+    const deleteUser = users.splice(index, 1);
+    res.json(deleteUser[0]);
+});
+*/
+
+
+/*
+//Regisztráció létrehozása
+app.post("/register", async (req, res) => {
+    const { username, email, password, role } = req.body;
+    try{
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = await User.create({
+            username,
+            email, 
+            password: hashedPassword,
+            role
+        });
+        res.status(201).json({ message: "Felhasználó létrehozva!", user: newUser})
+    } catch (err) {
+        res.status(400).json({ error: err.message});
+    }
+});
+*/
+
+
+/*
+        // Teszt felhasználó létrehozása
+        const user = await User.create({
+            username: "TesztFelhasznalo",
+            email: "teszt@email.com",
+            password: "titkosjelszo"
+        });
+        console.log("Felhasználó létrehozva:", user.toJSON());
+        */
+
+        //finally {
+        //await sequelize.close(); // Kapcsolat lezárása
+    //}
+
+
+    /*
+// Memóriában tárolt felhasznélók
+//let users = [
+//    { id: 1, name: "Anna"}, 
+//    { id: 2, name: "Béla"}, 
+//    { id: 3, name: "Csaba"}
+//];
+*/
