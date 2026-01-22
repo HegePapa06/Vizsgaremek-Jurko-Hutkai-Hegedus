@@ -1,0 +1,13 @@
+Mysql hez való szükséges csomag letöltése: 
+npm install sequelize mysql2
+
+Létrehozza a mappát és letölti az express-t:
+mkdir elso-express
+cd elso-express
+npm init -y
+npm install express
+
+HTML oldal eléréséhez való kötés:
+npm install cors
+
+npm install bcrypt
