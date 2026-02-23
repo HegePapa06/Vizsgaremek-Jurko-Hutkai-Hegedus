@@ -1,0 +1,182 @@
+/* Háttér beállítása */
+.page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle, #c5e1eb 0%, #a2cadb 100%);
+    font-family: 'Segoe UI', sans-serif;
+    padding: 20px;
+}
+
+/* A kártya alaphelyzetben (Tanuló) */
+.registration-card {
+    display: flex;
+    background: white;
+    border-radius: 40px; /* Erősebb kerekítés a kép alapján */
+    overflow: hidden;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+    width: 450px;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Tanár esetén kiszélesedik */
+.registration-card.expand {
+    width: 950px;
+}
+
+/* BAL OLDAL - Narancssárga Gulf stílus */
+.left-side {
+    background-color: #f26d35;
+    padding: 60px 50px;
+    flex: 1;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.left-side h2 {
+    font-size: 2.2rem;
+    font-weight: 900;
+    margin-bottom: 40px;
+    text-align: left;
+}
+
+/* JOBB OLDAL - Tanári rész */
+.right-side {
+    padding: 60px 50px;
+    flex: 1;
+    background: white;
+    animation: fadeIn 0.6s ease;
+    border-left: 1px solid #eee;
+}
+
+.right-side h3 {
+    color: #f26d35;
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-bottom: 30px;
+}
+
+/* Inputok stílusai */
+.input-wrap {
+    margin-bottom: 25px;
+}
+
+.input-wrap label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+
+/* Bal oldali inputok (világosabb narancson) */
+.left-side input, .left-side select {
+    width: 100%;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.3);
+    color: white;
+    font-size: 0.95rem;
+}
+
+/* Jobb oldali inputok (szürke háttérrel) */
+.right-side input, .right-side select, .right-side textarea {
+    width: 100%;
+    padding: 14px 20px;
+    border: 1px solid #e0e6ed;
+    border-radius: 15px;
+    background: #f0f4f7;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+/* Gomb stílusa */
+.submit-btn {
+    width: 100%;
+    padding: 18px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 15px;
+    background-color: #8dbad2; /* Gulf Kék */
+    color: #1d1d1b;
+    font-weight: 900;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.submit-btn:hover {
+    background-color: #7aa9c2;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Footer linkek */
+.form-footer {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+.form-footer a {
+    color: white;
+    font-weight: 800;
+    text-decoration: underline;
+    margin-left: 5px;
+}
+
+/* Animáció a megjelenéshez */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* Mobil optimalizálás */
+@media (max-width: 900px) {
+    .registration-card.expand {
+        flex-direction: column;
+        width: 100%;
+        max-width: 450px;
+    }
+}
+
+/* ... az előző CSS marad, és ezeket add hozzá/módosítsd ... */
+
+/* Jobb oldali extra elrendezés: két mező egymás mellett */
+.right-side .input-row {
+    display: flex;
+    gap: 15px;
+}
+
+.right-side .input-row .input-wrap {
+    flex: 1;
+}
+
+/* Speciális stílus a fájlfeltöltőhöz */
+.file-input {
+    background: #f0f4f7;
+    padding: 10px !important;
+    font-size: 0.8rem !important;
+    cursor: pointer;
+    border: 1px dashed #8dbad2 !important; /* Szaggatott vonal a kék színnel */
+}
+
+/* Reszponzív javítás a sorokhoz */
+@media (max-width: 600px) {
+    .right-side .input-row {
+        flex-direction: column;
+        gap: 0;
+    }
+}
+
+/* Görgethetőség, ha túl sok az adat mobilon */
+.right-side {
+    max-height: 80vh;
+    overflow-y: auto;
+}
