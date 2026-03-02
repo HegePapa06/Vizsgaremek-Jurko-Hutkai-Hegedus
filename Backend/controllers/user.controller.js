@@ -155,7 +155,7 @@ exports.changePassword = async (req, res) => {
 
 exports.unsubscribeFromTeacher = async (req, res) => {
     try {
-        const studentId = req.user.id; // A bejelentkezett tanuló ID-ja
+        const studentId = req.user.id;
         const { teacherId } = req.params;
         const { reason } = req.body;
 
@@ -163,7 +163,6 @@ exports.unsubscribeFromTeacher = async (req, res) => {
             return res.status(400).json({ message: "Az indoklás kötelező!" });
         }
 
-        // 1. Megkeressük az elfogadott kapcsolatot
         const request = await Request.findOne({
             where: {
                 studentId: studentId,
@@ -176,10 +175,9 @@ exports.unsubscribeFromTeacher = async (req, res) => {
             return res.status(404).json({ message: "Nem található aktív kapcsolat ezzel az oktatóval." });
         }
 
-        // 2. Tanuló nevének lekérése az indokláshoz
+        
         const student = await User.findByPk(studentId);
 
-        // 3. Indoklás mentése
         await Unsubscription.create({
             teacherId: teacherId,
             studentName: student.username,
@@ -193,7 +191,6 @@ exports.unsubscribeFromTeacher = async (req, res) => {
             }
         });
 
-        // 4. A kapcsolat törlése a Request táblából
         await request.destroy();
 
         res.status(200).json({ message: "Sikeres kiiratkozás, az indoklás elküldve az oktatónak." });
@@ -204,7 +201,6 @@ exports.unsubscribeFromTeacher = async (req, res) => {
     }
 };
 
-// Tanár lekérheti a saját indoklásait
 exports.getMyUnsubscriptions = async (req, res) => {
     try {
         const teacherId = req.user.id;
@@ -221,7 +217,6 @@ exports.getMyUnsubscriptions = async (req, res) => {
     }
 };
 
-// Tanár törölheti az indoklást
 exports.deleteUnsubscription = async (req, res) => {
     try {
         const { id } = req.params;
@@ -235,4 +230,5 @@ exports.deleteUnsubscription = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: "Hiba a törlés során." });
     }
+
 };
