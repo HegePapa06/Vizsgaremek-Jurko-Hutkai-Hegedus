@@ -1,0 +1,211 @@
+
+.page-wrapper {
+    min-height: calc(100vh - 100px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8faf9;
+    padding: 40px 20px;
+    transition: background-color 0.3s ease;
+}
+
+.registration-card {
+    display: flex;
+    width: 100%;
+    max-width: 550px; 
+    min-height: 650px;
+    background: #ffffff;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    transition: max-width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    border-top: 8px solid #00684a; 
+}
+
+.registration-card.expand {
+    max-width: 1000px; 
+}
+
+.left-side {
+    flex: 1;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: white;
+}
+
+.right-side {
+    flex: 1;
+    padding: 40px;
+    background-color: #00684a;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    animation: fadeIn 0.5s ease;
+}
+
+.left-side form, .right-side .teacher-form-container {
+    width: 100%;
+    max-width: 320px; 
+}
+
+
+.input-wrap {
+    margin-bottom: 18px;
+    width: 100%;
+    
+}
+
+.input-wrap label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    
+}
+
+h2 { 
+    color: #00684a; 
+    font-size: 28px; 
+    font-weight: 800; 
+    margin-bottom: 25px; 
+    text-transform: uppercase; 
+}
+
+ h3 { 
+    color: #ffffff !important; 
+    font-size: 28px; 
+    font-weight: 800; 
+    margin-bottom: 25px; 
+    text-transform: uppercase; 
+}
+
+.left-side .input-wrap label { color: #00684a; }
+.right-side .input-wrap label { color: rgba(255, 255, 255, 0.9); }
+
+.input-wrap input, 
+.input-wrap select, 
+.input-wrap textarea {
+    width: 100%;
+    padding: 11px 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    
+}
+
+.left-side input, .left-side select {
+    border: 1.5px solid #e1e8e6;
+    background-color: #fcfdfd;
+}
+
+.right-side input, .right-side select, .right-side textarea {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    color: rgb(255, 255, 255);
+}
+
+.right-side input:focus {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: #ffffff;
+    outline: none;
+}
+
+.input-txt{
+    color: #1e1e1e;
+}
+.input-row {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+}
+
+
+.file-input {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    cursor: pointer;
+}
+
+.file-input::file-selector-button {
+    background-color: #ffffff;
+    color: #00684a;
+    border: none;
+    padding: 7px 12px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.file-input::file-selector-button:hover {
+    background-color: #f1f4f3;
+}
+
+.submit-btn {
+    width: 100%;
+    border: none;
+    padding: 15px;
+    border-radius: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+
+.left-side .submit-btn {
+    background-color: #00684a;
+    color: white;
+}
+
+.right-side .submit-btn {
+    background-color: #ffffff;
+    color: #00684a;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+
+.form-footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 13px;
+}
+
+.form-footer a {
+    color: #00684a;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+body.dark-theme .registration-card { background-color: #1e1e1e; }
+body.dark-theme .left-side { background-color: #1e1e1e; }
+body.dark-theme .right-side { background-color: #004d36; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@media (max-width: 900px) {
+    .registration-card { flex-direction: column; max-width: 450px; }
+    .registration-card.expand { max-width: 450px; }
+    .right-side { border-left: none; border-top: 1px solid rgba(255,255,255,0.1); }
+    .input-row { flex-direction: column; gap: 0; }
+}
