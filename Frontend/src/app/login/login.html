@@ -1,0 +1,39 @@
+<div class="page-wrapper">
+  <div class="main-auth-container">
+    <div class="auth-form-side">
+      <div class="form-content">
+        <h2>Bejelentkezés</h2>
+        <p class="lead">Üdvözöljük a DrivePro rendszerében!</p>
+        
+        <form (ngSubmit)="onLogin()">
+          <div class="input-wrap">
+            <label>EMAIL CÍM</label>
+            <input [(ngModel)]="email" name="email" type="email" placeholder="pelda@email.com" required />
+          </div>
+          
+          <div class="input-wrap">
+            <label>JELSZÓ</label>
+            <input [(ngModel)]="password" name="password" type="password" placeholder="******" required />
+          </div>
+          
+          <button type="submit" class="submit-btn">BEJELENTKEZÉS</button>
+          
+          <div class="form-footer">
+            <p>Még nincs fiókod? <a (click)="goRegister()">Regisztráció</a></p>
+          </div>
+        </form>
+        
+        <div *ngIf="message" class="message-display">{{ message }}</div>
+      </div>
+    </div>
+
+    <div class="brand-side">
+      <div class="brand-overlay"></div>
+      <img src="assets/logo.png" alt="DrivePro Logo" class="side-logo">
+      <div class="brand-text">
+        <h3>Vezessen a jövőbe</h3>
+        <p>Prémium oktatás, profi környezet.</p>
+      </div>
+    </div>
+  </div>
+</div>

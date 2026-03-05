@@ -1,0 +1,102 @@
+<div class="page-wrapper">
+  <div class="registration-card" [class.expand]="role === 'tanar'">
+    
+    <div class="left-side">
+      <h2>Regisztráció</h2>
+      <form (ngSubmit)="onRegister()">
+        <div class="input-wrap">
+          <label>FELHASZNÁLÓNÉV</label>
+          <input type="text" [(ngModel)]="username" name="username" required>
+        </div>
+
+        <div class="input-wrap">
+          <label>EMAIL</label>
+          <input type="email" [(ngModel)]="email" name="email" #emailInput="ngModel" placeholder="pelda@gmail.com" pattern="^[a-z0-9._%+-]+@gmail\.com$" required>
+            <div *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)" class="error-msg">
+              <small *ngIf="emailInput.errors?.['required']">Az email kötelező!</small>
+              <small *ngIf="emailInput.errors?.['pattern']">Kizárólag @gmail.com-os cím elfogadott!</small>
+            </div>
+        </div>
+
+        <div class="input-wrap">
+          <label>JELSZÓ</label>
+          <input type="password" [(ngModel)]="password" name="password" required>
+        </div>
+
+        <div class="input-wrap">
+          <label>TELEFONSZÁM</label>
+          <input type="tel" [(ngModel)]="phone" name="phone" #phoneInput="ngModel" placeholder="+36301234567" minlength="11" maxlength="12" pattern="^[+0-9]*$" required>
+        </div>
+
+        <div class="input-wrap">
+          <label>SZEREPKÖR</label>
+          <select [(ngModel)]="role" name="role" required (change)="onRoleChange()">
+            <option value="tanulo">Tanuló</option>
+            <option value="tanar">Tanár</option>
+          </select>
+        </div>
+
+        <button *ngIf="role !== 'tanar'" type="submit" class="submit-btn">REGISZTRÁCIÓ</button>
+
+        <div class="form-footer">
+          <p>Már van fiókod? <a routerLink="/login">Bejelentkezés</a></p>
+        </div>
+      </form>
+    </div>
+
+    <div class="right-side" *ngIf="role === 'tanar'">
+      <h3>Tanári adatok</h3>
+      
+      <div class="input-row">
+        <div class="input-wrap">
+          <label>TANÁRI KÓD</label>
+          <input type="text" [(ngModel)]="teacherCode" name="teacherCode">
+        </div>
+      </div>
+
+      <div class="input-wrap">
+        <label>MEGYE</label>
+    <select [(ngModel)]="county" name="county">
+      <option value="Bács-Kiskun" class="input-txt">Bács-Kiskun</option>
+      <option value="Baranya" class="input-txt">Baranya</option>
+      <option value="Békés" class="input-txt">Békés</option>
+      <option value="Borsod-Abaúj-Zemplén" class="input-txt">Borsod-Abaúj-Zemplén</option>
+      <option value="Csongrád-Csanád" class="input-txt">Csongrád-Csanád</option>
+      <option value="Fejér" class="input-txt">Fejér</option>
+      <option value="Győr-Moson-Sopron" class="input-txt">Győr-Moson-Sopron</option>
+      <option value="Hajdú-Bihar" class="input-txt">Hajdú-Bihar</option>
+      <option value="Heves" class="input-txt">Heves</option>
+      <option value="Jász-Nagykun-Szolnok" class="input-txt">Jász-Nagykun-Szolnok</option>
+      <option value="Komárom-Esztergom" class="input-txt">Komárom-Esztergom</option>
+      <option value="Nógrád" class="input-txt">Nógrád</option>
+      <option value="Pest" class="input-txt">Pest</option>
+      <option value="Somogy" class="input-txt">Somogy</option>
+      <option value="Szabolcs-Szatmár-Bereg" class="input-txt">Szabolcs-Szatmár-Bereg</option>
+      <option value="Tolna" class="input-txt">Tolna</option>
+      <option value="Vas" class="input-txt">Vas</option>
+      <option value="Veszprém" class="input-txt">Veszprém</option>
+      <option value="Zala" class="input-txt">Zala</option>
+      <option value="Budapest" class="input-txt">Budapest</option>
+    </select>
+      </div>
+
+      <div class="input-wrap">
+        <label>VÁROS</label>
+        <input type="text" [(ngModel)]="city" name="city">
+      </div>
+
+      <div class="input-wrap">
+        <label>BEMUTATKOZÁS</label>
+        <textarea [(ngModel)]="bio" name="bio" rows="2"></textarea>
+      </div>
+
+      <div class="input-wrap">
+        <label>PROFILKÉP / AUTÓ KÉPE</label>
+        <input type="file" class="file-input" (change)="onFileSelected($event)">
+      </div>
+
+      <button type="submit" class="submit-btn" (click)="onRegister()">TANÁRI REGISZTRÁCIÓ</button>
+    </div>
+
+  </div>
+</div>
