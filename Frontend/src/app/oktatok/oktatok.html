@@ -1,0 +1,26 @@
+<div class="county-bar">
+  <button 
+    *ngFor="let c of counties" 
+    (click)="selectedCounty = c"
+    [class.active]="selectedCounty === c"
+  >
+    {{ c }}
+  </button>
+  <button (click)="selectedCounty = ''" [class.active]="selectedCounty === ''">Összes</button>
+</div>
+
+
+
+<div class="teachers-container">
+  <div *ngFor="let t of teachers | countyFilter:selectedCounty" class="teacher-card">
+    <img [src]="'http://localhost:3000/uploads/' + t.photo" class="teacher-img" *ngIf="t.photo">
+    <div class="teacher-info">
+      <h3>{{ t.username }}</h3>
+      <p>Email: {{ t.email }}</p>
+      <p>Megye: {{ t.county }}</p>
+      <p>{{ t.bio }}</p>
+      <button (click)="applyToTeacher(t.id)">Jelentkezem</button>
+    </div>
+  </div>
+</div>
+
