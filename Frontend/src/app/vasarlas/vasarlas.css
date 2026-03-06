@@ -1,0 +1,143 @@
+.shop-container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fcfcfc;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+h2, h3 {
+    color: #2c3e50;
+    text-align: center;
+}
+
+
+.items {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+
+.item-card {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 20px;
+    width: 220px;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.item-card:hover:not(.disabled) {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+
+.item-card.disabled {
+    background-color: #f5f5f5;
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.item-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.item-card p {
+    font-weight: bold;
+    color: #27ae60;
+    font-size: 1.1rem;
+}
+
+.item-card small {
+    color: #e74c3c;
+    display: block;
+    margin-bottom: 10px;
+    min-height: 30px;
+}
+
+
+.cart {
+    margin-top: 40px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 5px solid #3498db;
+}
+
+.cart ul {
+    list-style: none;
+    padding: 0;
+}
+
+.cart li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed #ddd;
+}
+
+
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+button:hover:not(:disabled) {
+    background-color: #2980b9;
+}
+
+button:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+}
+
+
+.cart button {
+    background: transparent;
+    color: #e74c3c;
+    font-size: 1.2rem;
+    padding: 0 10px;
+}
+
+.cart button:hover {
+    background: #fdf2f2;
+}
+
+
+button[click*="checkout"] {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    background-color: #27ae60;
+    font-size: 1.1rem;
+}
+
+button[click*="checkout"]:hover {
+    background-color: #219150;
+}
+
+.cart-summary {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 15px;
+  border: 1px solid #dee2e6;
+}
