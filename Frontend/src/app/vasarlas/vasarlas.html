@@ -1,0 +1,50 @@
+<div class="shop-container">
+<h2>Vezetés Bolt</h2>
+
+  <div class="items">
+    <div class="item-card">
+      <h3>Plusz vezetési óra</h3>
+      <p>Ár: 8.000 Ft</p>
+      <button (click)="addToCart('extra_hour')" [disabled]="role === 'tanar'">
+        {{ role === 'tanar' ? 'Csak tanulóknak' : 'Kosárba' }}
+      </button>
+    </div>
+
+    <div class="item-card" [class.disabled]="!student?.lastExamFailed || role === 'tanar'">
+      <h3>Pótvizsga alkalma</h3>
+      <p>Ár: 15.000 Ft</p>
+      <small *ngIf="!student?.lastExamFailed && role === 'tanulo'">Csak bukás után elérhető!</small>
+      <small *ngIf="role === 'tanar'">Oktatók nem vásárolhatnak!</small>
+      
+      <button (click)="addToCart('retake_exam')" 
+              [disabled]="!student?.lastExamFailed || role === 'tanar'">
+        Kosárba
+      </button>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="cart">
+    <h3>Kosár</h3>
+      <ul>
+        <li *ngFor="let item of cart">
+          {{ item.name }} - {{ item.price }} Ft
+          <button (click)="removeFromCart(item.id)">❌</button>
+        </li>
+      </ul>
+      <p *ngIf="cart.length === 0">A kosár üres.</p>
+        <div class="cart-summary" *ngIf="cart.length > 0">
+        <hr>
+        <div style="display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold; margin-top: 10px;">
+          <span>Összesen fizetendő:</span>
+          <span>{{ totalAmount | number:'1.0-0' }} Ft</span>
+        </div>
+      </div>
+      <hr>
+      <button *ngIf="cart.length > 0" (click)="checkout()" [disabled]="true">Fizetés</button>
+    </div>
+    
+  </div>
+
+
