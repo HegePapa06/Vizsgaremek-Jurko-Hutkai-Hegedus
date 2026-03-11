@@ -1,0 +1,323 @@
+.profile-container {
+    max-width: 850px;
+    margin: 60px auto;
+    background: #ffffff;
+    border-radius: 30px;
+    box-shadow: 
+        0 10px 15px -3px rgba(0, 0, 0, 0.1), 
+        0 20px 40px -4px rgba(0, 0, 0, 0.04),
+        0 0 0 1px rgba(0, 104, 74, 0.05); 
+    overflow: hidden;
+    animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid rgba(229, 231, 235, 0.5);
+}
+
+@keyframes slideUpFade {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.profile-header {
+    background: linear-gradient(135deg, #00684a 0%, #004d37 100%);
+    padding: 60px 40px 80px 40px; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    position: relative;
+}
+
+.profile-header::after {
+    content: "";
+    position: absolute;
+    top: 0; right: 0;
+    width: 250px; height: 100%;
+    background: linear-gradient(to left, rgba(255,255,255,0.05), transparent);
+    pointer-events: none;
+}
+
+.header-text h1 {
+    margin: 0;
+    font-size: 2.2rem;
+    font-weight: 900;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.reg-date {
+    margin-top: 10px;
+    opacity: 0.9;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.edit-toggle-btn {
+    background: #ffffff;
+    border: none;
+    color: #00684a;
+    padding: 12px 28px;
+    border-radius: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 5;
+}
+
+.edit-toggle-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+.profile-pic-row {
+    background: #ffffff;
+    margin: -50px 40px 30px 40px;
+    padding: 25px;
+    border-radius: 24px;
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    border: 1px solid #edf2f1;
+}
+
+.profile-image-container {
+    width: 120px;
+    height: 120px;
+    border-radius: 22px;
+    border: 4px solid white;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    overflow: hidden;
+    background: #f3f4f6;
+    flex-shrink: 0;
+}
+
+.profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-pic-edit {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-grow: 1;
+}
+
+.file-input {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.custom-file-label {
+    display: inline-block;
+    background: #f1f5f9;
+    color: #00684a;
+    padding: 12px 20px;
+    border-radius: 12px;
+    border: 2px dashed #00684a;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+}
+
+.custom-file-label:hover {
+    background: #00684a;
+    color: white;
+}
+
+.upload-btn {
+    background: linear-gradient(135deg, #00684a 0%, #004d37 100%);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 104, 74, 0.2);
+    transition: 0.3s;
+}
+
+.upload-btn:disabled {
+    background: #e5e7eb;
+    color: #9ca3af;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.profile-content {
+    padding: 20px 50px 50px 50px;
+}
+
+.info-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 25px;
+}
+
+.info-row label {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #00684a;
+}
+
+input:not([type="file"]), textarea, select {
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: 14px;
+    border: 2px solid #f1f5f9;
+    background: #f8fafc;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: #00684a;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(0, 104, 74, 0.08);
+}
+
+.password-change-section {
+    background: #f8fafc;
+    padding: 25px;
+    border-radius: 20px;
+    border: 1px solid #e2e8f0;
+    margin: 30px 0;
+}
+
+.password-toggle-btn {
+    background: #ffffff;
+    border: 1px dashed #00684a;
+    color: #00684a;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: 700;
+    width: 100%;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.password-toggle-btn:hover {
+    background: #f0fdf4;
+}
+
+.unsubscribe-btn {
+    background: #fee2e2;
+    color: #b91c1c;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.unsubscribe-btn:hover { background: #fecaca; }
+
+.unsubscriptions-section h3 {
+    color: #1f2937;
+    margin-bottom: 20px;
+}
+
+.unsub-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 15px;
+}
+
+.unsub-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.unsub-reason {
+    font-style: italic;
+    color: #4b5563;
+    background: #f9fafb;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.delete-unsub-btn {
+    background: transparent;
+    color: #9ca3af;
+    border: none;
+    font-size: 0.8rem;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+
+.actions {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.save-btn {
+    width: 100%;
+    max-width: 450px;
+    background: #00684a;
+    color: white;
+    border: none;
+    padding: 18px;
+    border-radius: 16px;
+    font-weight: 800;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(0, 104, 74, 0.2);
+    transition: all 0.3s;
+}
+
+.save-btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(0, 104, 74, 0.3);
+}
+
+.save-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.modal-content {
+    border-radius: 30px;
+    padding: 30px !important;
+    border: 1px solid rgba(0, 104, 74, 0.1);
+}
+
+.confirm-btn {
+    background: #ef4444;
+    padding: 12px 25px;
+    border-radius: 12px;
+    font-weight: 700;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.cancel-btn {
+    background: #f3f4f6;
+    padding: 12px 25px;
+    border-radius: 12px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+}
