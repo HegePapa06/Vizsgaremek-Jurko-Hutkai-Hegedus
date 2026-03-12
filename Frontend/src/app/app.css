@@ -1,0 +1,48 @@
+/* A teljes fejléc háttér és igazítás */
+header {
+  background: #1e1e1e;
+  padding: 10px 20px;
+  border-bottom: 2px solid #333;
+}
+
+/* Menü konténer */
+#cssmenu {
+  display: flex;
+  justify-content: center;
+}
+
+/* UL alapbeállítás */
+#cssmenu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 20px;
+}
+
+/* Lista elemek */
+#cssmenu ul li {
+  display: inline-block;
+}
+
+/* Linkek stílusa */
+#cssmenu ul li a {
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: 0.25s;
+}
+
+/* Hover effect */
+#cssmenu ul li a:hover {
+  background: #333;
+}
+
+/* Aktív routerLink */
+#cssmenu ul li a.active {
+  background: #007bff;
+  color: white;
+}
+
