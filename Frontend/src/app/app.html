@@ -1,0 +1,49 @@
+<header>
+    <div id="cssmenu">
+        <ul>
+            <li><a routerLink="/home" routerLinkActive="active">Főoldal</a></li>
+            <li *ngIf="!isLoggedIn()"><a routerLink="/login" routerLinkActive="active">Bejelentkezés</a></li>
+            <li *ngIf="!isLoggedIn()"><a routerLink="/register" routerLinkActive="active">Regisztráció</a></li>
+            
+            <li *ngIf="isLoggedIn()"><a routerLink="/oktatok" routerLinkActive="active">Oktatók</a></li>
+            <li *ngIf="isLoggedIn()"><a routerLink="/orarend" routerLinkActive="active">Órarend</a></li>
+            <li *ngIf="isLoggedIn()"><a routerLink="/vasarlas" routerLinkActive="active">Pótvizsga és Kiegésztő</a></li>
+            <li *ngIf="isLoggedIn()"><a routerLink="/profile" routerLinkActive="active">Profil</a></li>
+            
+            <li *ngIf="isLoggedIn()"><a (click)="logout()" style="cursor: pointer;">Kijelentkezés</a></li>
+        </ul>
+
+        <a routerLink="/home" class="logo-container">
+            <img src="assets/db_logo.png" alt="DrivePro Logo" class="nav-logo">
+        </a>
+    </div>
+</header>
+<router-outlet />
+<footer class="drivepro-footer">
+  <div class="footer-content">
+    <div class="footer-section brand">
+      <div class="footer-logo">drive<span>pro</span></div>
+      <p>A jövő sofőrjeinek képzése, professzionális környezetben, modern eszközökkel.</p>
+    </div>
+
+    <div class="footer-section links">
+      <h4>Gyorslinkek</h4>
+      <ul>
+        <li><a href="#">Főoldal</a></li>
+        <li><a href="#">Órarend</a></li>
+        <li><a href="#">Vezetés Bolt</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section contact">
+      <h4>Kapcsolat</h4>
+      <p>📍 3950 Sárospatak, Zrínyi u. 38.</p>
+      <p>📞 +36 30 123 4567</p>
+      <p>✉️ info@drivepro.hu</p>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; 2026 DrivePro Jogosítványkezelő Rendszer. Minden jog fenntartva.</p>
+  </div>
+</footer>

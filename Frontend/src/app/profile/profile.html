@@ -1,0 +1,159 @@
+<div class="profile-container" *ngIf="user">
+  
+  <div class="profile-header">
+    <div class="header-text">
+      <h1>{{ user.username }} profilja</h1>
+      <p class="reg-date" *ngIf="user.createdAt">Regisztráció: {{ user.createdAt | date:'yyyy.MM.dd' }}</p>
+    </div>
+    <button type="button" class="edit-toggle-btn" (click)="toggleEdit()">
+      {{ isEditing ? 'Mégse' : 'Szerkesztés' }}
+    </button>
+  </div>
+
+  <div class="profile-content">
+    
+   <div class="info-row profile-pic-row" *ngIf="isEditing && user.role === 'tanar'">
+  <label>Profilkép:</label>
+  <div class="profile-image-container">
+    <img *ngIf="user.photo" [src]="'http://localhost:3000/uploads/' + user.photo" alt="Profilkép" class="profile-img">
+    <div *ngIf="!user.photo" class="no-photo-placeholder">Nincs kép feltöltve</div>
+  </div>
+
+  <div class="profile-pic-edit">
+    <input type="file" id="profileFile" (change)="onFileSelected($event)" accept="image/*" class="file-input">
+    
+    <label for="profileFile" class="custom-file-label">
+      {{ selectedFile ? '✓ Kép kiválasztva' : 'Fénykép kiválasztása' }}
+    </label>
+
+    <button type="button" class="upload-btn" (click)="uploadProfilePicture()" [disabled]="!selectedFile">
+      Kép frissítése
+    </button>
+  </div>
+</div>
+
+    <div class="info-row">
+      <label>Email:</label>
+      <span *ngIf="!isEditing">{{ user.email }}</span>
+      <div *ngIf="isEditing" class="edit-input-wrapper">
+        <input type="email" [(ngModel)]="user.email" name="email" #emailInput="ngModel" placeholder="pelda@gmail.com" pattern="^[a-z0-9._%+-]+@gmail\.com$" required>
+        <div *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)" class="error-msg">
+          <small>Kizárólag érvényes @gmail.com cím menthető!</small>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+    
+    <div class="password-change-section" *ngIf="isEditing">
+      <button type="button" class="password-toggle-btn" (click)="showPasswordChange = !showPasswordChange">
+        {{ showPasswordChange ? 'Mégse módosítom a jelszót' : 'Jelszó megváltoztatása' }}
+      </button>
+
+      <div *ngIf="showPasswordChange" class="password-form">
+        <div class="info-row">
+          <label>Jelenlegi jelszó:</label>
+          <input type="password" [(ngModel)]="passwords.old" placeholder="Régi jelszó">
+        </div>
+        <div class="info-row">
+          <label>Új jelszó:</label>
+          <input type="password" [(ngModel)]="passwords.new" placeholder="Új jelszó (min. 6 karakter)">
+        </div>
+        <div class="info-row">
+          <label>Új jelszó újra:</label>
+          <input type="password" [(ngModel)]="passwords.confirm" placeholder="Új jelszó megerősítése">
+        </div>
+        <button type="button" class="save-btn" (click)="changePassword()">JELSZÓ FRISSÍTÉSE</button>
+      </div>
+      <hr>
+    </div>
+
+    <div class="info-row">
+      <label>Telefonszám:</label>
+      <span *ngIf="!isEditing">{{ user.phone || 'Nincs megadva telefonszám.' }}</span>
+      <input *ngIf="isEditing" type="tel" [(ngModel)]="user.phone" placeholder="+36 30 123 4567" minlength="11" maxlength="12" pattern="^[+0-9]*$" required>
+    </div>
+
+    <div *ngIf="user.role === 'tanar'">
+      <div class="info-row">
+        <label>Bemutatkozás:</label>
+        <p *ngIf="!isEditing">{{ user.bio || 'Nincs megadva bio.' }}</p>
+        <textarea *ngIf="isEditing" [(ngModel)]="user.bio"></textarea>
+      </div>
+
+      <div class="info-row">
+        <label>Helyszín:</label>
+        <span *ngIf="!isEditing">{{ user.county }}, {{ user.city }}</span>
+        <div *ngIf="isEditing" class="dual-input">
+          <select [(ngModel)]="user.county">
+            <option value="" disabled selected>Válassz vármegyét</option>
+            <option value="Budapest">Budapest</option>
+            <option value="Bács-Kiskun">Bács-Kiskun</option>
+            <option value="Baranya">Baranya</option>
+            <option value="Békés">Békés</option>
+            <option value="Borsod-Abaúj-Zemplén">Borsod-Abaúj-Zemplén</option>
+            <option value="Csongrád-Csanád">Csongrád-Csanád</option>
+            <option value="Fejér">Fejér</option>
+            <option value="Győr-Moson-Sopron">Győr-Moson-Sopron</option>
+            <option value="Hajdú-Bihar">Hajdú-Bihar</option>
+            <option value="Heves">Heves</option>
+            <option value="Jász-Nagykun-Szolnok">Jász-Nagykun-Szolnok</option>
+            <option value="Komárom-Esztergom">Komárom-Esztergom</option>
+            <option value="Nógrád">Nógrád</option>
+            <option value="Pest">Pest</option>
+            <option value="Somogy">Somogy</option>
+            <option value="Szabolcs-Szatmár-Bereg">Szabolcs-Szatmár-Bereg</option>
+            <option value="Tolna">Tolna</option>
+            <option value="Vas">Vas</option>
+            <option value="Veszprém">Veszprém</option>
+            <option value="Zala">Zala</option>
+          </select>
+          <input type="text" [(ngModel)]="user.city" placeholder="Város">
+        </div>
+      </div>
+
+      <div class="unsubscriptions-section" *ngIf="unsubscriptions && unsubscriptions.length > 0">
+        <hr>
+        <h3>Beérkezett kiiratkozási indoklások</h3>
+        <div class="unsub-card" *ngFor="let unsub of unsubscriptions">
+          <div class="unsub-header">
+            <strong>{{ unsub.studentName }}</strong>
+            <small>{{ unsub.createdAt | date:'yyyy.MM.dd HH:mm' }}</small>
+          </div>
+          <p class="unsub-reason">"{{ unsub.reason }}"</p>
+          <button type="button" class="delete-unsub-btn" (click)="deleteUnsubscription(unsub.id)">Indoklás törlése</button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="user.role === 'tanulo'" class="student-info">
+      <div class="info-row" *ngIf="studentStatus">
+        <label>Oktatóm:</label>
+        <span>{{ studentStatus.teacher?.username || 'Nincs oktatód' }}</span>
+        <div class="status-badge" [ngClass]="studentStatus.status">
+          {{ studentStatus.status === 'accepted' ? 'Elfogadva' : 'Függőben' }}
+        </div>
+      </div>
+
+      <div class="actions" *ngIf="studentStatus?.status === 'accepted'">
+        <button type="button" class="unsubscribe-btn" (click)="openUnsubscribeModal()">Kiiratkozás az oktatótól</button>
+      </div>
+    </div>
+
+    <div class="actions" *ngIf="isEditing">
+      <button type="button" class="save-btn" (click)="saveProfile()">VÁLTOZÁSOK MENTÉSE</button>
+    </div>
+  </div>
+
+  <div class="modal" *ngIf="showUnsubscribeModal" style="display: flex; justify-content: center; align-items: center; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;">
+    <div class="modal-content" style="background: white; padding: 20px; border-radius: 8px; max-width: 500px; width: 90%;">
+      <h3>Kiiratkozás megerősítése</h3>
+      <p>Kérjük, indokold meg a döntésedet (kötelező):</p>
+      <textarea [(ngModel)]="unsubscribeReason" placeholder="Indoklás..." style="width: 100%; min-height: 100px; margin-bottom: 15px;"></textarea>
+      <div class="modal-buttons" style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" class="cancel-btn" (click)="closeUnsubscribeModal()">Mégse</button>
+        <button type="button" class="confirm-btn" (click)="confirmUnsubscribe()" [disabled]="!unsubscribeReason.trim()">Véglegesítés</button>
+      </div>
+    </div>
+  </div>
+</div>
