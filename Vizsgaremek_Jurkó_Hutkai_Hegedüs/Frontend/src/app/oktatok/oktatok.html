@@ -1,0 +1,41 @@
+<div class="county-bar">
+  <button 
+    *ngFor="let c of counties" 
+    (click)="selectedCounty = c"
+    [class.active]="selectedCounty === c"
+  >
+    {{ c }}
+  </button>
+  <button (click)="selectedCounty = ''" [class.active]="selectedCounty === ''">Összes</button>
+</div>
+
+
+<div class="teachers-container">
+  <div *ngFor="let t of teachers | countyFilter:selectedCounty" class="teacher-card">
+    <img [src]="'http://localhost:3000/uploads/' + t.photo" class="teacher-img" *ngIf="t.photo">
+    <div class="teacher-info">
+      <h3>{{ t.username }}</h3>
+      <p>Email: {{ t.email }}</p>
+      <p>Telefonszám: {{ t.phone}}</p>
+      <p>Megye: {{ t.county }}</p>
+      <p>Város: {{ t.city }}</p>
+      <p>{{ t.bio }}</p>
+
+      <button 
+        *ngIf="currentUser?.role === 'tanulo' && !studentTeacher" 
+        (click)="applyToTeacher(t.id)"> 
+        Jelentkezés
+      </button>
+
+      <div *ngIf="studentTeacher?.teacherId === t.id" class="status-info">
+        <span *ngIf="studentTeacher.status === 'pending'" class="status-orange">Elbírálásra vár...</span>
+        <span *ngIf="studentTeacher.status === 'accepted'" class="status-green">Ő az oktatód!</span>
+      </div>
+
+      <p *ngIf="studentTeacher && studentTeacher.teacherId !== t.id" class="disabled-text">
+        Már máshoz jelentkeztél.
+      </p>
+    </div>
+  </div>
+</div>
+
