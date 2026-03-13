@@ -1,0 +1,245 @@
+<h2>Órarend</h2>
+
+<div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+<div *ngIf="role === 'tanar' && requests.length > 0" class="requests-container">
+  <div class="requests-grid">
+    <div *ngFor="let req of visibleRequests" class="card">
+      <div class="card-info">
+        <p><strong>Diák:</strong> {{ req.student.username }}</p>
+        <p><strong>Állapot:</strong>
+          <span [style.color]="req.status === 'accepted' ? '#28a745' : (req.status === 'pending' ? '#f27032' : '#dc3545')" style="font-weight: bold;">
+            {{ req.status }}
+          </span>
+        </p>
+        <p><small>Küldve: {{ req.createdAt | date:'short' }}</small></p>
+      </div>
+
+      <div class="card-actions" *ngIf="req.status === 'pending'">
+        <button class="btn-accept" (click)="acceptRequest(req)">Elfogad</button>
+        <button class="btn-reject" (click)="rejectRequest(req)">Elutasít</button>
+      </div>
+    </div>
+  </div>
+  <div class="slide-controls">
+  <button (click)="prevSlide()" [disabled]="startIndex === 0" class="btn-prev">
+    <span>←</span> Vissza
+  </button>
+  <button (click)="nextSlide()" [disabled]="startIndex + 4 >= requests.length" class="btn-next">
+    Tovább <span>→</span>
+  </button>
+</div>
+</div>
+
+<div *ngIf="role === 'tanulo' && studentTeacher" class="requests-container">
+    <div class="requests-grid">
+      <div class="card">
+        <p><strong>Oktató:</strong> {{ studentTeacher.teacher?.username || 'Még nincs elfogadva' }}</p>
+        <p><strong>Státusz:</strong>
+          <span [ngStyle]="{
+            'color': studentTeacher.status === 'accepted' ? 'green' :
+                    studentTeacher.status === 'pending' ? 'orange' : 'red',
+            'font-weight': 'bold'
+          }">
+            {{ studentTeacher.status || 'Nincs státusz' }}
+          </span>
+          </p>
+      </div>
+    </div>
+</div>
+
+<h3>Heti órarend</h3>
+
+<div class="main-container">
+  <aside *ngIf="role === 'tanar' || role === 'tanulo'" class="stats-sidebar">
+  <h3>{{ role === 'tanar' ? 'Diákok haladása' : 'Saját haladásom' }}</h3>
+  <span *ngIf="role === 'tanar'" 
+        [style.color]="studentStats.length >= 20 ? '#ff4d4d' : '#28a745'"
+        style="font-weight: bold; font-size: 0.9rem; background: rgba(0,0,0,0.3); padding: 4px 8px; border-radius: 6px;">
+    {{ studentStats.length }} / 20
+  </span>
+
+  <div class="stats-list">
+    <div *ngFor="let s of studentStats" class="stat-card" 
+         [class.exam-ready]="s.isExamReady"
+         [class.licensed]="s.hasLicense"
+         [class.failed]="!s.hasLicense && s.lastExamFailed"> 
+      
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span class="stat-name">{{ s.username }}</span>
+        <button *ngIf="role === 'tanar'" (click)="removeStudent(s.id)" 
+                style="background: none; border: none; color: #ff4d4d; cursor: pointer;">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+
+      <div *ngIf="s.hasLicense" class="success-license-box">
+        <mat-icon class="license-icon">badge</mat-icon>
+        <p><strong>SIKERES VIZSGA!</strong></p>
+        <p>Gratulálunk a jogosítványhoz!</p>
+      </div>
+
+      <div *ngIf="!s.hasLicense && s.lastExamFailed" class="failed-exam-box">
+        <mat-icon class="failed-icon">cancel</mat-icon>
+        <p><strong>SAJNOS MEGBUKTÁL</strong></p>
+        <p style="font-size: 0.85rem; margin: 5px 0;">
+          {{ role === 'tanulo' ? 'Pótvizsgát vagy pótórát kell vásárolnod a folytatáshoz!' : 'A tanulónak pótórát vagy pótvizsgát kell vennie.' }}
+        </p>
+      </div>
+
+      <div *ngIf="!s.hasLicense && !s.lastExamFailed">
+        <div class="stat-info">
+          <span class="stat-hours">{{ s.completedHours }} / {{ s.requiredHours }} óra</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" [style.width.%]="(s.completedHours / s.requiredHours) * 100"></div>
+        </div>
+        
+        <div *ngIf="s.isExamReady" class="exam-label">
+          <mat-icon *ngIf="role === 'tanulo'">celebration</mat-icon>
+          <mat-icon *ngIf="role === 'tanar'">warning</mat-icon>
+          {{ role === 'tanulo' ? ' Mehetsz vizsgázni!' : ' VIZSGA!' }}
+        </div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+  <div class="calendar-wrapper">
+    <div class="calendar-tabs">
+      <button [class.active]="activeWeek === 0" (click)="activeWeek = 0">Ezen a héten</button>
+      <button [class.active]="activeWeek === 1" (click)="activeWeek = 1">Következő hét</button>
+    </div>
+
+    <div class="calendar">
+      <div class="row header">
+        <div class="cell time"></div>
+        <div class="cell" *ngFor="let d of days">{{ d }}</div>
+      </div>
+
+      <div class="row" *ngFor="let t of times">
+        <div class="cell time">{{ t }}</div>
+        <div class="cell slot" 
+     *ngFor="let d of days" 
+     (click)="role === 'tanar' ? handleCellClick(d, t, activeWeek) : null" 
+     [class.past-slot]="isPast(d, t, activeWeek)">
+          <div *ngIf="getLesson(d, t, activeWeek) as lesson" 
+                class="lesson" 
+                [class.cancelled]="lesson.status === 'cancelled'"
+                [class.completed]="lesson.status === 'completed'"
+                [class.failed]="lesson.status === 'failed'"
+                [class.success-exam]="lesson.type === 'vizsga' && lesson.examResult === 'sikeres'"
+                [class.failed-exam]="lesson.type === 'vizsga' && lesson.examResult === 'sikertelen'"
+                [class.pending-result]="lesson.status === 'pending_result' || (lesson.type === 'vizsga' && lesson.status === 'planned' && !lesson.examResult)">
+                
+                <button *ngIf="lesson.status === 'planned'" class="cancel-btn" 
+                        (click)="cancelLesson(lesson.id); $event.stopPropagation()">×</button>
+
+                <div class="student-name">
+                    {{ lesson.studentName }}
+                </div>
+              
+                <div *ngIf="lesson.type === 'vizsga'" class="exam-info">
+                    <span *ngIf="!lesson.examResult" class="status-badge pending">DÖNTÉSRE VÁR</span>
+                    <span *ngIf="lesson.examResult === 'sikeres'" class="status-badge success">✓ SIKERES VIZSGA</span>
+                    <span *ngIf="lesson.examResult === 'sikertelen'" class="status-badge failed">✗ SIKERTELEN</span>
+                </div>
+
+                <div *ngIf="lesson.type !== 'vizsga'">
+                    <div *ngIf="lesson.status === 'cancelled' && lesson.note" class="cancel-reason">
+                        {{ lesson.note }}
+                    </div>
+                </div>
+            </div>
+          </div> 
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showExamResultModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Vizsga eredmény rögzítése</h2>
+      <button class="close-btn" (click)="showExamResultModal = false">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p>Tanuló: <strong>{{selectedLesson?.studentName}}</strong></p>
+      <p>Időpont: {{selectedLesson?.date}} | {{selectedLesson?.startTime}}</p>
+      
+      <div class="form-group">
+        <label>Eredmény kiválasztása:</label>
+        <mat-form-field appearance="fill" style="width: 100%;">
+          <mat-select [(ngModel)]="examResultValue">
+            <mat-option value="sikeres">
+              <mat-icon style="color: #28a745; vertical-align: middle; margin-right: 8px;">check_circle</mat-icon>
+              Sikeres vizsga
+            </mat-option>
+            <mat-option value="sikertelen">
+              <mat-icon style="color: #ff4d4d; vertical-align: middle; margin-right: 8px;">cancel</mat-icon>
+              Sikertelen vizsga
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="showExamResultModal = false">Mégse</button>
+      <button class="btn-save" (click)="submitExamResult()">Eredmény mentése</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showEditModal && role === 'tanar'" class="modal-backdrop">
+  <div class="modal-container"> 
+    <div class="modal-header"><h3>Óra módosítása</h3></div>
+    <div class="modal-body">
+      <p><strong>Diák:</strong> {{ selectedLesson?.studentName }}</p>
+      <label>Új Nap:</label>
+      <select [(ngModel)]="editModalDay">
+        <option *ngFor="let day of days" [value]="day">{{ day }}</option>
+      </select>
+      <label>Új Időpont:</label>
+      <select [(ngModel)]="editModalTime">
+        <option *ngFor="let time of times" [value]="time">{{ time }}</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button (click)="updateLesson()">Mentés</button>
+      <button (click)="closeEditModal()">Mégse</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showModal && role === 'tanar'" class="modal-backdrop">
+  <div class="modal-container">
+    <div class="modal-header"><h3>Óra hozzárendelése</h3></div>
+    <div class="modal-body">
+      <p><strong>Nap:</strong> {{ modalDay }}</p>
+      <p><strong>Idő:</strong> {{ modalTime }}</p>
+      
+      <label>Diák kiválasztása:</label>
+      <select [(ngModel)]="selectedStudentId">
+        <option [ngValue]="null" disabled>Válassz egy diákot...</option>
+        <option *ngFor="let s of acceptedStudents" [ngValue]="s.id">
+          {{ s.username }} {{ isStudentReady(s.id) ? '(Vizsgázhat!)' : '' }}
+        </option>
+      </select>
+
+      <label style="margin-top: 10px; display: block;">Óra típusa:</label>
+      <select [(ngModel)]="selectedLessonType">
+        <option value="vezetés" [disabled]="isStudentReady(selectedStudentId) && !hasPurchasedHours(selectedStudentId)">
+          Sima vezetés
+        </option>
+
+        <option value="vizsga" [disabled]="!isStudentReady(selectedStudentId)">
+          Vizsga
+        </option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button (click)="saveLesson()" [disabled]="!selectedStudentId">Mentés</button>
+      <button (click)="closeModal()">Mégse</button>
+    </div>
+  </div>
+</div>
